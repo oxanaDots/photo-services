@@ -129,7 +129,7 @@ const Booking: React.FC = () => {
  <div className='flex justify-between gap-4'>
  <input 
   placeholder='email'
-  className='w-full p-2 bg-transparent border-b  placeholder-gray-500 border-gray-500'
+  className='w-full p-2 bg-transparent border-b rounded-none placeholder-gray-500 border-gray-500'
  value={state.emailInput}
  onChange={(e)=> handleChange('emailInput', e.target.value)}
  />
@@ -139,7 +139,7 @@ const Booking: React.FC = () => {
  <div className='flex justify-between gap-'>
  <input 
   placeholder='phone number'
-  className='w-full p-2 bg-transparent border-b  placeholder-gray-500 border-gray-500'
+  className='w-full p-2 bg-transparent border-b rounded-none placeholder-gray-500 border-gray-500'
  value={state.phoneNumber}
  onChange={(e)=> handleChange('phoneNumber', e.target.value)}
  />
