@@ -107,7 +107,10 @@ const Booking: React.FC = () => {
 
         
   return (
- <form className=' grid grid-cols-1 gap-4  justify-center shadow-md bg-gray-100 bg-opacity-10 rounded-lg backdrop-blur-lg p-8 m-8
+  
+  <div className='flex justify-center'> 
+ <form className='w-[40rem] xss:w-11/12 grid grid-cols-1 gap-4  justify-center items-center  my-8
+  shadow-md bg-gray-100 bg-opacity-10 rounded-lg backdrop-blur-lg p-8 
  
  shadow-mg '>
 
@@ -116,7 +119,7 @@ const Booking: React.FC = () => {
 
  <input 
  placeholder='full name'
- className='w-full p-2 bg-transparent   placeholder-gray-500 border-b border-gray-500'
+ className='w-full p-2 bg-transparent rounded-none  placeholder-gray-500 border-b border-gray-500'
  value={state.nameInput}
  onChange={(e)=> handleChange('nameInput', e.target.value)}
  />
@@ -148,7 +151,7 @@ const Booking: React.FC = () => {
   {ocassions.map(ocassion=>
     <p onClick={()=> handleChoiceOfEvent(ocassion.id)} 
     key={ocassion.id}
-    className= {`text-center h-24 font-semibold flex items-center justify-center
+    className= {`text-center w-full h-24 font-semibold flex items-center justify-center
         border rounded-md  p-10 cursor-pointer shadow-lg 
         ${ocassion.isSelected ? ' bg-gray-100 bg-opacity-40 border-blue-800 border-2  text-blue-800' : 
         ' bg-slate-200 bg-opacity-20 text-gray-800 border-none' }
@@ -167,7 +170,7 @@ const Booking: React.FC = () => {
         <p
         key={item.id}
         onClick={()=> handleChoiceOfService(item.id)} 
-        className= {`text-center h-24 font-semibold flex items-center justify-center
+        className= {`text-center h-24 w-full font-semibold flex items-center justify-center
         border rounded-md  p-10 cursor-pointer shadow-lg
         ${item.isSelected ? ' bg-gray-100 bg-opacity-40 border-emerald-800 border-2  text-emerald-800': 
         ' bg-slate-200 bg-opacity-20 text-gray-800 border-none' }
@@ -182,6 +185,7 @@ const Booking: React.FC = () => {
 
 
  </form>
+ </div>
   )
 }
 

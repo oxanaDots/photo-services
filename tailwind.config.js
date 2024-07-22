@@ -12,7 +12,9 @@ export default {
       },
      screens: {
 'xs': {'max': '500px'},
-'xss': {'max': '400px'}
+'xss': {'max': '400px'},
+'s': {'max': '760px'},
+
      }
     },
   },
