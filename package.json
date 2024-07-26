@@ -10,14 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "oksana-form-validators": "^1.0.1",
+    "oxdots-form-validators": "^1.0.0",
     "pg": "^8.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.11",
     "@types/react": "^18.3.3",
@@ -29,11 +34,13 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "nodemon": "^3.1.4",
     "postcss": "^8.4.39",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.5",
     "tailwindcss": "^3.4.6",
-    "typescript": "^5.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3",
     "vite": "^5.3.1"
   }
 }
