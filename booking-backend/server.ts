@@ -32,7 +32,7 @@ const db = mysql.createConnection({
 
     host: 'localhost',
     user: 'oxanadots',
-    password: 'Ternopil1996',
+    password: '',
     database: 'booking_system',
 //process.env.DB_PASSWORD
 })
