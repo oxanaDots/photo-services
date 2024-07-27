@@ -471,11 +471,13 @@ const Booking: React.FC = () => {
 <button className=' bg-neutral-100 bg-opacity-65 py-2 text-gray-700 text-lg font-semibold rounded-md mt-6 '>Submit</button>
 </>
  :
+ <>
  <div className='flex flex-col justify-center items-center text-neutral-700'>
     <h1 className='text-4xl  font-semibold text-center mb-6' >Booking successful!</h1>
  <h3 className='text-center '> Someone from our team will be in touch with you shortly at <span className='text-green-600 font-medium'>{state.fieldState.emailInput}</span></h3>
  
  </div>
+ </>
 }
  </form>
  </div>
