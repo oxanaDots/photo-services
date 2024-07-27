@@ -9,14 +9,16 @@ interface FieldState {
     nameInput: string,
     emailInput: string,
     phoneNumber: string,
-    dateRequired: string
+    dateRequired: string,
+    message: string
 }
 
  export interface ErrorState{
     nameInput: string  ,
     emailInput: string ,
     phoneNumber: string ,
-    dateRequired: string 
+    dateRequired: string ,
+    message: string
 }
 
 
@@ -87,7 +89,8 @@ const initialState : State = {
         nameInput: '',
         emailInput: '',
         phoneNumber: '',
-        dateRequired: ''
+        dateRequired: '',
+        message: '',
     },
 
 
@@ -95,7 +98,8 @@ const initialState : State = {
         nameInput: '',
         emailInput: '',
         phoneNumber: '',
-        dateRequired: ''
+        dateRequired: '',
+        message: '',
 
     },
 
@@ -350,14 +354,21 @@ const Booking: React.FC = () => {
                  state.specificErrors.phoneNumber, 
                  state.generalError)
 
+
+             const dateInputBorder = colorBorder( 
+                state.fieldState.dateRequired,
+                 state.specificErrors.dateRequired, 
+                 state.generalError)
+
           
                
         
   return (
   
   <div className='flex justify-center'> 
- <form onSubmit={handleSubmit} className='w-[40rem] xss:w-11/12 grid grid-cols-1 gap-2  justify-center items-center  my-8
-  shadow-md bg-gray-100 bg-opacity-10 rounded-lg backdrop-blur-lg  bg:mountains p-8 shadow-mg '>
+ <form onSubmit={handleSubmit} className='w-[40rem] xss:w-11/12 grid 
+ grid-cols-1 gap-2 bg-opacity-35 justify-center items-center  my-8
+  shadow-md   bg-indigo-100 rounded-lg backdrop-blur-md z-80 p-8 shadow-mg '>
   
  
 {!state.isSubmitted? 
@@ -409,23 +420,26 @@ const Booking: React.FC = () => {
  <input 
  type='date'
 
-  className='w-full p-3 bg-transparent rounded-md border border-gray-500 text-gray-500 placeholder-gray-500 focus:outline-none'
+  className={`w-full p-3 bg-transparent rounded-md border border-gray-500 text-gray-500 placeholder-gray-500 focus:outline-none
+       ${dateInputBorder}
+    `}
  value={state.fieldState.dateRequired}
- onChange={handleChange('dateRequired')}
- />
+ onChange={handleChange('dateRequired')}/>
+   <p className='mt text-red-600 text-xs'>{state.specificErrors.dateRequired}</p>
+
  </div>
 
  <div className='grid gap-4 my-6'>
-    <h3 className=' font-semibold text-gray-700' >What's the ocassion?</h3>
+    <h3 className=' font-semibold text-gray-900' >What's the ocassion?</h3>
     <div className='grid gap-4 grid-cols-3 xs:grid-cols-2 xss:grid-cols-1'>
   {ocassions.map(ocassion=>
     <p onClick={()=> handleChoiceOfEvent(ocassion.id)} 
     key={ocassion.id}
     className= {`text-center w-full h-24 font-semibold flex items-center justify-center
         border rounded-md  p-10 cursor-pointer shadow-lg 
-        ${ocassion.isSelected ? ' bg-gray-100 bg-opacity-40 border-blue-800 border-2  text-blue-800' : 
+        ${ocassion.isSelected ? ' bg-gray-100 bg-opacity-60 border-blue-800 border-2  text-blue-800' : 
       
-        state.generalError && !hasSelectedOccasion? 'border-red-600'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
+        state.generalError && !hasSelectedOccasion? 'border-red-700'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
      }
       `}
     > {ocassion.eventName}</p>
@@ -435,7 +449,7 @@ const Booking: React.FC = () => {
 
  </div>
  <div className='grid gap-4 my-6'>
-    <h3 className='font-semibold text-gray-700'>Choose desired services:</h3>
+    <h3 className='font-semibold text-gray-900'>Choose desired services:</h3>
     <div className='grid gap-4 grid-cols-3 xs:grid-cols-2 xss:grid-cols-1'>
     {services.map(item=> 
 
@@ -444,9 +458,9 @@ const Booking: React.FC = () => {
         onClick={()=> handleChoiceOfService(item.id)} 
         className= {`text-center w-full h-24 font-semibold flex items-center justify-center
             border rounded-md  p-10 cursor-pointer shadow-lg 
-            ${item.isSelected ? ' bg-gray-100 bg-opacity-40 border-green-600 border-2  text-green-600' : 
+            ${item.isSelected ? ' bg-gray-100 bg-opacity-60 border-emerald-600 border-2  text-emerald-600' : 
           
-            state.generalError && !hasSelectedService? 'border-red-600'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
+            state.generalError && !hasSelectedService? 'border-red-700'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
          }
           `}>{item.serviceName}</p>
  )}
@@ -454,7 +468,7 @@ const Booking: React.FC = () => {
  </div>
 
 
-<button className=' bg-gray-100 bg-opacity-65 py-2 text-gray-700 text-lg font-semibold rounded-md mt-6 '>Submit</button>
+<button className=' bg-neutral-100 bg-opacity-65 py-2 text-gray-700 text-lg font-semibold rounded-md mt-6 '>Submit</button>
 </>
  :
  <div className='flex flex-col justify-center items-center text-neutral-700'>
