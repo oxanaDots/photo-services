@@ -2,6 +2,7 @@ import React, { useReducer, useState,  useEffect } from 'react';
 import axios from 'axios';
 
 import  { validateFullName, validateEmail, validateContactNumber, colorBorder, hasNoErrors } from '../utils/utils.ts';
+import Nav from './Nav.tsx';
 
 
 
@@ -311,7 +312,7 @@ const Booking: React.FC = () => {
                         try {
                             dispatch({type: "SUBMIT_BOOKING"})
 
-                            const response = await axios.post('http://localhost:3001/submit', {
+                            const response = await axios.post('http://localhost:3003/submit', {
                                 nameInput: state.fieldState.nameInput,
                                 emailInput: state.fieldState.emailInput,
                                 phoneNumber: state.fieldState.phoneNumber,
@@ -365,6 +366,8 @@ const Booking: React.FC = () => {
         
   return (
   
+    <>
+    <Nav/>
   <div className='flex justify-center'> 
  <form onSubmit={handleSubmit} className='w-[40rem] xss:w-11/12 grid 
  grid-cols-1 gap-2 bg-opacity-35 justify-center items-center  my-8
@@ -481,6 +484,7 @@ const Booking: React.FC = () => {
 }
  </form>
  </div>
+ </>
   )
 }
 
