@@ -18,9 +18,9 @@ export function validateContactNumber(phoneInput: string): string | null {
 
     export function colorBorder(inputField: string, specificError: string, generalError: string){
 
-return     ` ${!specificError && inputField? 'focus:border-green-600 border-2': ''}
+return     ` ${!specificError && inputField &&'focus:border-green-600 border-2'}
              ${specificError && inputField && 'focus:border-red-600 border-2'}
-            ${generalError  || specificError ? 'focus:border-red-600' : ' border-gray-500'}
+            ${generalError  || specificError && 'focus:border-red-600' }
            ${generalError  &&  !specificError && 'border-red-600'}
            ${generalError && inputField && 'border-green-600 ' }
 

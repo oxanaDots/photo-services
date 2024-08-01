@@ -377,7 +377,7 @@ const Booking: React.FC = () => {
  <div className='flex flex-col justify-between gap-2 mb-2' > 
  <input 
  placeholder='full name'
- className={`w-full p-3 bg-transparent rounded-md border   placeholder-gray-500 focus:outline-none
+ className={`w-full p-3 bg-transparent rounded-md border border-gray-600  placeholder-gray-500 focus:outline-none
    ${nameInputBorder}
      `} 
      
@@ -391,7 +391,7 @@ const Booking: React.FC = () => {
  <div className='flex  flex-col justify-between gap-2 mb-2'>
  <input 
   placeholder='email'
- className={`w-full p-3 bg-transparent rounded-md border   placeholder-gray-500 focus:outline-none
+ className={`w-full p-3 bg-transparent rounded-md border  border-gray-600  placeholder-gray-500 focus:outline-none
      ${emailInputBorder}
      `}
  value={state.fieldState.emailInput}
@@ -404,7 +404,7 @@ const Booking: React.FC = () => {
  <div className='flex flex-col justify-between gap-2 mb-2'>
  <input 
   placeholder='phone number'
-  className={`w-full p-3 bg-transparent rounded-md border   placeholder-gray-500 focus:outline-none
+  className={`w-full p-3 bg-transparent rounded-md border   border-gray-600 placeholder-gray-500 focus:outline-none
     ${phoneInputBorder}
      `} 
      value={state.fieldState.phoneNumber}
@@ -417,7 +417,7 @@ const Booking: React.FC = () => {
  <input 
  type='date'
 
-  className={`w-full p-3 bg-transparent rounded-md border border-gray-500 text-gray-500 placeholder-gray-500 focus:outline-none
+  className={`w-full p-3 bg-transparent rounded-md border border-gray-600 text-gray-500 placeholder-gray-500 focus:outline-none
        ${dateInputBorder}
     `}
  value={state.fieldState.dateRequired}
