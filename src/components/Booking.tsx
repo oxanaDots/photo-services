@@ -216,6 +216,10 @@ const Booking: React.FC = () => {
 
     const handleChange = (field: keyof FieldState) => (e: React.ChangeEvent<HTMLInputElement>)  => {
              
+        if (nameInput  || emailInput || phoneNumber || dateRequired ) {
+            dispatch({ type: 'CLEAR_GENERALERROR' });
+          
+        }
             const value  = e.target.value
                 dispatch ({
                     type: 'SET_FIELD',
@@ -223,7 +227,6 @@ const Booking: React.FC = () => {
                     value
                 })
     
-            
               
 
                 let error : string | null = ''
@@ -247,10 +250,7 @@ const Booking: React.FC = () => {
                         dispatch({ type: "CLEAR_ERROR", field })    
                }
                
-               if (nameInput  || emailInput || phoneNumber || dateRequired ) {
-                dispatch({ type: 'CLEAR_GENERALERROR' });
-                return true
-            }
+           
 
             
         }
@@ -295,13 +295,7 @@ const Booking: React.FC = () => {
                 if(!nameInput || !emailInput || !phoneNumber || !dateRequired || !hasSelectedService || !hasSelectedOccasion){
                     generalError  = 'Fill in all the fields and make your selections'
                     
-                } else  if(!nameInput || !emailInput || !phoneNumber || !dateRequired &&  hasSelectedService && hasSelectedOccasion){
-                    generalError = 'Fill in all fields'
-                }
-                
-                else if(!hasSelectedService || !hasSelectedOccasion){
-                    generalError  = 'Make your selections'
-                }
+                } 
                 dispatch({type: 'SET_GENERALERROR', erroMessage:  generalError})
                    
    
