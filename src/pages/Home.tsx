@@ -1,6 +1,5 @@
 
 import Nav from '../components/Nav';
-import SignUp from './SignUp';
 
 const Home = () => {
   return (

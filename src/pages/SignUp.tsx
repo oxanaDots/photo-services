@@ -2,7 +2,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import axios, { AxiosError } from 'axios'
 import Nav from '../components/Nav';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 interface FormInputs {
@@ -15,7 +15,6 @@ interface FormInputs {
 const SignUp = () => {
 
 
-const navigate = useNavigate()
 const {register, handleSubmit, setError, formState: {errors, isSubmitting, isSubmitSuccessful}} = useForm<FormInputs>({shouldUseNativeValidation: false,
 }
 )
