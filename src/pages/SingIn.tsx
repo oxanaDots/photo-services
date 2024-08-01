@@ -52,7 +52,7 @@ const SignIn = () => {
     <>
     <Nav/>
     <div className='flex justify-center items-center'>
-<form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col justify-center items-center py-10 w-[30rem]'>
+<form onSubmit={handleSubmit(onSubmit, onError)} className='flex flex-col justify-center items-center  px-6 py-10 w-[30rem]'>
     <legend className='pb-6 text-3xl font-semibold text-blue-800'>Welcome back</legend>
 <div className='py-2 w-full'>
     <input  className='w-full shadow-md py-2 px-4 rounded-3xl' 

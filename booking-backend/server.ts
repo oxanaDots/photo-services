@@ -24,7 +24,7 @@ const port = 3003;
 const app: Application = express()
 app.use(cors(
   {
-    origin: 'http://localhost:5173', 
+    origin: 'photo-services-rjab.vercel.app', 
     optionsSuccessStatus: 200
   }
 ));
