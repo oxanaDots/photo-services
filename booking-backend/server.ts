@@ -24,7 +24,9 @@ const app: Application = express()
 const allowedOrigins=[
   'https://photo-services-rjab.vercel.app',
   'http://localhost:3003',
-  'http://localhost:5173'
+  'http://localhost:5173',
+  'https://photo-services-rjab-edwkhs398-oxanas-projects-46ce71a7.vercel.app'
+
 ]
 
 app.use(cors({
