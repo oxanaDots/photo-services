@@ -19,13 +19,15 @@ export function validateContactNumber(phoneInput: string): string | null {
     export function colorBorder(inputField: string, specificError: string, generalError: string){
 
       if (!specificError && inputField ){
-return 'focus:border-green-600 border-2'
+return 'border-emerald-600 focus:border-emerald-600  border-2'
       } else if(generalError  &&  !specificError  && inputField){
-  return 'border-emerald-600 focus:border-emerald-600 border-2'
+  return 'border-emerald-600  border-2'
       } else if(specificError && inputField){
-        return  'border-red-600 focus:border-red-600 '
+        return  'border-red-600 focus:border-red-600  border'
       } else if (generalError && !specificError){
  return 'border-red-600 border'
+      } else {
+        return 
       }
 }
 

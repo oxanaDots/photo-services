@@ -377,9 +377,9 @@ const Booking: React.FC = () => {
  <div className='flex flex-col justify-between gap-2 mb-2' > 
  <input 
  placeholder='full name'
- className={`w-full p-3 bg-transparent rounded-md border border-gray-600  placeholder-gray-500 focus:outline-none
-   ${nameInputBorder}
-     `} 
+ className={`w-full p-3 bg-transparent rounded-md border  placeholder-gray-500 focus:outline-none
+   ${nameInputBorder} border-gray-600 
+     `}
      
  value={state.fieldState.nameInput}
  onChange={handleChange('nameInput')}
@@ -436,7 +436,7 @@ const Booking: React.FC = () => {
         border rounded-md  p-10 cursor-pointer shadow-lg 
         ${ocassion.isSelected ? ' bg-gray-100 bg-opacity-60 border-blue-800 border-2  text-blue-800' : 
       
-        state.generalError && !hasSelectedOccasion? 'border-red-700'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
+        state.generalError && !hasSelectedOccasion? 'border-red-600'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
      }
       `}
     > {ocassion.eventName}</p>
@@ -457,7 +457,7 @@ const Booking: React.FC = () => {
             border rounded-md  p-10 cursor-pointer shadow-lg 
             ${item.isSelected ? ' bg-gray-100 bg-opacity-60 border-emerald-600 border-2  text-emerald-600' : 
           
-            state.generalError && !hasSelectedService? 'border-red-700'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
+            state.generalError && !hasSelectedService? 'border-red-600'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
          }
           `}>{item.serviceName}</p>
  )}

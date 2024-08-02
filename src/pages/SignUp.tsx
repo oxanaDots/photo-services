@@ -46,7 +46,10 @@ try {
          message: 'The username is already taken',
         })
       } else{
-        console.error('Error occurred')
+        setError('root', {
+          type: 'manual',
+          message: 'Server Error'
+        })
       }
 
     }

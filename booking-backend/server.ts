@@ -14,20 +14,33 @@ import path from 'path';
 
 
 dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
-console.log("Environment Variables:", process.env); // Add this line
 
-console.log('Database password:', process.env.DB_PASSWORD);
 
 const secret = process.env.JWT_SECRET_KEY as string;
 const dbPassword = process.env.DB_PASSWORD as string;
 const port = 3003;
 const app: Application = express()
-app.use(cors(
-  {
-    origin: ['https://photo-services-rjab.vercel.app', 'http://localhost:3003'], 
-    optionsSuccessStatus: 200
-  }
-));
+
+const allowedOrigins=[
+  'https://photo-services-rjab.vercel.app',
+  'http://localhost:3003',
+  'http://localhost:5173'
+]
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // Allow requests with no origin (like mobile apps or curl requests)
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true // if you need to support cookies
+}));
 
 
 // Middleware
