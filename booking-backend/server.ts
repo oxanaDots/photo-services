@@ -9,21 +9,17 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 
+
+
+const corsOptions = {
+  origin:  'https://photo-services-rjab.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 const secret = process.env.JWT_SECRET_KEY as string;
 const dbPassword = process.env.DB_PASSWORD as string;
 const port = 3003;
 const app: Application = express()
-
-const corsOptions = {
-  origin: ['https://photo-services-rjab-milekhucs-oxanas-projects-46ce71a7.vercel.app',
-    'https://photo-services-rjab.vercel.app',
-    'http://localhost:3003',
-    'http://localhost:5173',
-  ], // Replace with your frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
 app.use(cors(corsOptions))
 
 dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
