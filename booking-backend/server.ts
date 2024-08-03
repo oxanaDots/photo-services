@@ -8,42 +8,31 @@ import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import  User  from './models/models/User'
-import path from 'path';
-
-const allowedOrigins=[
-  'https://photo-services-rjab.vercel.app',
-  'http://localhost:3003',
-  'http://localhost:5173',
-  'https://photo-services-rjab-edwkhs398-oxanas-projects-46ce71a7.vercel.app'
-
-]
-
-dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
-
 
 const secret = process.env.JWT_SECRET_KEY as string;
 const dbPassword = process.env.DB_PASSWORD as string;
 const port = 3003;
 const app: Application = express()
 
-
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // Allow requests with no origin (like mobile apps or curl requests)
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log(`Blocked by CORS: ${origin}`)
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  optionsSuccessStatus: 200,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+const corsOptions = {
+  origin: ['https://photo-services-rjab-milekhucs-oxanas-projects-46ce71a7.vercel.app',
+    'https://photo-services-rjab.vercel.app',
+    'http://localhost:3003',
+    'http://localhost:5173',
+  ], // Replace with your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true // if you need to support cookies
-}));
+};
+
+app.use(cors(corsOptions))
+
+dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
+
+
+
+
+
+
 
 
 // Middleware
