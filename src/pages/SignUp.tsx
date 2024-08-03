@@ -30,21 +30,28 @@ try {
 
 } catch (error){
   if(axios.isAxiosError(error)){
-    const axiosError = error as AxiosError<{message: string}>
+    const axiosError = error as AxiosError<{error: string}>
     if(axiosError.response && axiosError.response.status === 409){
-      const errorMessage = axiosError.response.data.message
+      const errorMessage = axiosError.response.data.error;
+      console.log(axiosError)
 
-      if(errorMessage.includes('email')){
+      if(errorMessage === 'Email is taken'){
         setError('root',{
           type: 'manual',
-         message: 'The email is already taken',
+         message: errorMessage,
         })
 
-      } else if(errorMessage.includes('username')){
+      } else if(errorMessage === 'Username is already taken'){
         setError('root',{
           type: 'manual',
-         message: 'The username is already taken',
+         message: errorMessage,
+        }) }
+        else if(errorMessage === 'Email and username are taken'){
+        setError('root', {
+        type: 'manual',
+       message: errorMessage
         })
+        
       } else{
         setError('root', {
           type: 'manual',
@@ -132,7 +139,7 @@ const onError = ()=>{
     </div>
     {errors.root && <p className='text-red-700 self-start text-left place-items-start pl-4 text-xs pt-1'>{errors.root.message}</p>}
 
-    <button disabled={isSubmitting} className={` ${isSubmitting? 'bg-blue-700': 'bg-blue-200'}  w-full mt-6 border-blue-700 border-2  text-blue-900 font-semibold rounded-3xl py-2 px-5`}>{isSubmitting? 'Creating account...': 'Create account'}</button>
+    <button disabled={isSubmitting} className={` ${isSubmitting && 'bg-blue-300'} bg-blue-200 w-full mt-6 border-blue-700 border-2  text-blue-900 font-semibold rounded-3xl py-2 px-5`}>{isSubmitting? 'Creating account...': 'Create account'}</button>
     
     </>
     :

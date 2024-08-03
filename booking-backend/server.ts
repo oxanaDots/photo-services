@@ -11,7 +11,13 @@ import jwt from 'jsonwebtoken';
 import  User  from './models/models/User'
 import path from 'path';
 
+const allowedOrigins=[
+  'https://photo-services-rjab.vercel.app',
+  'http://localhost:3003',
+  'http://localhost:5173',
+  'https://photo-services-rjab-edwkhs398-oxanas-projects-46ce71a7.vercel.app'
 
+]
 
 dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
 
@@ -21,13 +27,7 @@ const dbPassword = process.env.DB_PASSWORD as string;
 const port = 3003;
 const app: Application = express()
 
-const allowedOrigins=[
-  'https://photo-services-rjab.vercel.app',
-  'http://localhost:3003',
-  'http://localhost:5173',
-  'https://photo-services-rjab-edwkhs398-oxanas-projects-46ce71a7.vercel.app'
 
-]
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -35,6 +35,7 @@ app.use(cors({
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.log(`Blocked by CORS: ${origin}`)
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -73,18 +74,18 @@ const db = mysql.createPool({
 //   console.error('Error connecting to the database:', err)
 // })
 
-// async function connectToDatabase(){
-//   try{
-//     const conn = await db.getConnection()
-//     console.log('Connected to the database')
-//     conn.release()
-//   } catch(error){
-//     console.error('Error connecting to the database:', error)
+async function connectToDatabase(){
+  try{
+    const conn = await db.getConnection()
+    console.log('Connected to the database')
+    conn.release()
+  } catch(error){
+    console.error('Error connecting to the database:', error)
 
-//   }
-// }
+  }
+}
 
-// connectToDatabase()
+connectToDatabase()
 
 app.post('/submit', async (req: Request, res: Response) => {
   const {
@@ -108,69 +109,77 @@ app.post('/submit', async (req: Request, res: Response) => {
     connection = await db.getConnection()
     const [results] = await connection.execute(sqlBookingQuerry, bookingFormValues);
     console.log('Query results:', results)
-    res.status(200).json({message: 'Data inserted successfully', data: results})
+   return res.status(200).json({message: 'Data inserted successfully', data: results})
   } catch (error){
     if(error instanceof Error){
       console.error('Error executing query:', error);
-      res.status(500).json({error: error.message})
+     return  res.status(500).json({error: error.message})
     } else{
-      res.status(500).json({ error: 'Unknown error' });
+     return  res.status(500).json({ error: 'Unknown error' });
 
     }
-  } finally{
-    if (connection) connection.release()
+  }  finally {
+    if (connection) {
+      console.log('Releasing connection...');
+      await connection.release();
+      console.log('Connection released');
+    }
   }
 })
 
 app.post('/signup', async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
-  const saltRounds = 10;
+  const signUpSqlQuery = 'INSERT INTO users (username, email, password, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
+  const checkUsernameSqlQuery = 'SELECT * FROM users WHERE username = ?';
+  const checkEmailQuery = 'SELECT * FROM users WHERE email = ?'
 
-  if (!username || !email || !password) {
-    return res.status(400).json({ message: 'Username, email, and password are required' });
-  }
-
+  let connection;
   try {
-    const emailExists = await User.findOne({ where: { email } });
-    if (emailExists) {
-      return res.status(409).json({ message: 'The email is already taken' });
-    }
+    connection = await db.getConnection();
+    console.log('Connection acquired');
 
-    const usernameExists = await User.findOne({ where: { username } });
-    if (usernameExists) {
-      return res.status(409).json({ message: 'The username is already taken' });
-    }
+    // Check if the username or email already exists
+    const [existingUsernameUsers] = await connection.execute<mysql.RowDataPacket[]>(checkUsernameSqlQuery, [username]);
+    const [existingEmailUsers] = await connection.execute<mysql.RowDataPacket[]>(checkEmailQuery, [email])
+    console.log('Existing usernames:', existingUsernameUsers);
+    console.log('Existing emails:', existingEmailUsers);
 
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hash = await bcrypt.hash(password, salt);
+ if (existingEmailUsers.length > 0 && existingUsernameUsers.length > 0){
+  return res.status(409).json({error: 'Email and username are taken'})
+ } else if(existingUsernameUsers.length > 0){
+  return res.status(409).json({ error: 'Username is already taken' });
 
-    const newUser = await User.create({ username, email, password: hash });
-    res.status(200).json({ message: 'User registered successfully', user: newUser });
+ } else if(existingEmailUsers.length > 0){
+  return res.status(409).json({error: 'Email is taken'})
 
-    const signUpFormValues = [username, email, hash];
-    const sqlSignUpQuery = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+ } else {
 
-    let connection;
-    try {
-      connection = await db.getConnection();
-      const [results] = await connection.execute(sqlSignUpQuery, signUpFormValues);
-      console.log('Query results:', results);
-    } catch (err) {
-      console.error('Error executing query:', err);
-      if (err instanceof Error) {
-        res.status(500).json({ error: err.message });
-      } else {
-        res.status(500).json({ error: 'Unknown error' });
-      }
-    } finally {
-      if (connection) connection.release();
-    }
+
+
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert the new user
+    await connection.execute(signUpSqlQuery, [username, email, hashedPassword]);
+    console.log('User inserted successfully');
+    return res.status(201).json({ message: 'User created successfully' });
+ }
   } catch (err) {
-    console.error('Error processing signup:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error during signup:', err);
+    if (err instanceof Error) {
+      return res.status(500).json({ error: err.message });
+    } else {
+      return res.status(500).json({ error: 'Unknown error' });
+    }
+  } finally {
+    if (connection) {
+      await connection.release();
+      console.log('Connection released');
+    }
   }
 });
-``
+
 
 
 
@@ -184,6 +193,7 @@ app.post('/signin', async (req: Request, res: Response) => {
     connection = await db.getConnection();
     const [rows] = await connection.execute<mysql.RowDataPacket[]>(signInSqlQuery, [username]);
 
+    console.log(rows)
     if (rows.length === 0) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
@@ -194,23 +204,29 @@ app.post('/signin', async (req: Request, res: Response) => {
 
     if (!match) {
       return res.status(401).json({ error: 'Invalid username or password' });
+    } else {
+
+      const token = jwt.sign({ id: user.id, username: user.username }, secret, {
+        expiresIn: '1h'
+      });
+  
+      return res.status(200).json({ token });
     }
 
-    const token = jwt.sign({ id: user.id, username: user.username }, secret, {
-      expiresIn: '1h'
-    });
-
-    return res.status(200).json({ token });
 
   } catch (err) {
     console.error('Error executing query:', err);
     if (err instanceof Error) {
-      res.status(500).json({ error: err.message });
+     return  res.status(500).json({ error: err.message });
     } else {
-      res.status(500).json({ error: 'Unknown error' });
+    return  res.status(500).json({ error: 'Unknown error' });
     }
   } finally {
-    if (connection) connection.release();
+    if (connection) {
+      console.log('Releasing connection...');
+      await connection.release();
+      console.log('Connection released');
+    }
   }
 });
 
