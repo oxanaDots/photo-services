@@ -19,12 +19,12 @@ const {register, handleSubmit, setError, formState: {errors, isSubmitting, isSub
 }
 )
 
-
+const apiURL = 'https://photo-services-rjab.vercel.app'
 const onSubmit: SubmitHandler<FormInputs> = async (data )=> {
 try {
   
 
- const response = await axios.post('http://localhost:3003/signup', data)
+ const response = await axios.post(`${apiURL}/signup`, data)
  console.log('User registered', response.data)
 
 
