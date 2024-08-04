@@ -7,12 +7,13 @@ import mysql from 'mysql2/promise';
 import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
 
 
 
 const corsOptions = {
-  origin:  'https://photo-services-rjab.vercel.app',
+  origin:  'https://photo-services-one.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -228,4 +229,7 @@ app.listen(port, () => {
 
 
 
-export default app
+
+export default (req: VercelRequest, res: VercelResponse) => {
+  app(req, res); // Export Express app as serverless function
+};

@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp'
 import Home from './pages/Home'
 import Booking from './components/Booking'
 import SignIn from './pages/SingIn'
+import React from 'react'
 
 function App() {
 

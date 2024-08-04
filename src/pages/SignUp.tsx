@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import axios, { AxiosError } from 'axios'
 import Nav from '../components/Nav';
 import { NavLink } from 'react-router-dom';
+import React from 'react'
 
 
 interface FormInputs {
@@ -19,7 +20,7 @@ const {register, handleSubmit, setError, formState: {errors, isSubmitting, isSub
 }
 )
 
-const apiURL = 'https://photo-services-rjab.vercel.app'
+const apiURL = 'https://photo-services-one.vercel.app'
 const onSubmit: SubmitHandler<FormInputs> = async (data )=> {
 try {
   
