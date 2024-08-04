@@ -13,7 +13,7 @@ interface FormInputs {
 }
 
 const SignUp = () => {
-
+const apiURL = '  https://d6f1-84-71-101-158.ngrok-free.app'
 
 const {register, handleSubmit, setError, formState: {errors, isSubmitting, isSubmitSuccessful}} = useForm<FormInputs>({shouldUseNativeValidation: false,
 }
@@ -24,7 +24,7 @@ const onSubmit: SubmitHandler<FormInputs> = async (data )=> {
 try {
   
 
- const response = await axios.post('http://localhost:3003/signup', data)
+ const response = await axios.post(`${apiURL}/signup`, data)
  console.log('User registered', response.data)
 
 
