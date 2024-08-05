@@ -7,27 +7,46 @@ import mysql from 'mysql2/promise';
 import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import path from 'path'
+import { CorsOptions } from 'cors';
 
 
-
-
-const corsOptions = {
-  origin:  'https://photo-services-one.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-const secret = process.env.JWT_SECRET_KEY as string;
-const dbPassword = process.env.DB_PASSWORD as string;
-const port = 3003;
 const app: Application = express()
-app.use(cors(corsOptions))
+app.options('*', cors()); // Preflight response for all routes
 
 dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
 
+const allowedOrigins: string[] = [
+  'https://photo-services-oxanadots-oxanas-projects-46ce71a7.vercel.app/',
+  'https://photo-services-fawn.vercel.app',
+  'https://photo-services-oxanas-projects-46ce71a7.vercel.app/',
+  
+];
+
+
+const corsOptions: CorsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin, like mobile apps or curl requests
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions))
 
 
 
+const secret = process.env.JWT_SECRET_KEY as string;
+const dbPassword = process.env.DB_PASSWORD as string;
+const port = 3003;
 
 
 
@@ -37,7 +56,12 @@ dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
   app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static(path.join(__dirname, '../dist')));
 
+// Catch-all route to serve index.html for SPA
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
+});
 
 
 const db = mysql.createPool({
@@ -230,6 +254,3 @@ app.listen(port, () => {
 
 
 
-export default (req: VercelRequest, res: VercelResponse) => {
-  app(req, res); // Export Express app as serverless function
-};

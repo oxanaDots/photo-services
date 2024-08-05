@@ -1,8 +1,8 @@
 import React, { useReducer, useState,  useEffect } from 'react';
 import axios from 'axios';
 
-import  { validateFullName, validateEmail, validateContactNumber, colorBorder, hasNoErrors } from '../utils/utils.ts';
-import Nav from './Nav.tsx';
+import  { validateFullName, validateEmail, validateContactNumber, colorBorder, hasNoErrors } from '../utils/utils';
+import Nav from './Nav';
 
 
 
@@ -306,7 +306,7 @@ const Booking: React.FC = () => {
                         try {
                             dispatch({type: "SUBMIT_BOOKING"})
 
-                            const response = await axios.post('http://localhost:3003/submit', {
+                            const response = await axios.post('https://photo-services-fawn.vercel.app/submit', {
                                 nameInput: state.fieldState.nameInput,
                                 emailInput: state.fieldState.emailInput,
                                 phoneNumber: state.fieldState.phoneNumber,
