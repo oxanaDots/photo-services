@@ -129,7 +129,9 @@ app.post('/submit', async (req: Request, res: Response) => {
   }
 })
 
+
 app.post('/signup', async (req: Request, res: Response) => {
+  res.send('Signup endpoint accessed!');
   const { username, email, password } = req.body;
   const signUpSqlQuery = 'INSERT INTO users (username, email, password, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
   const checkUsernameSqlQuery = 'SELECT * FROM users WHERE username = ?';
@@ -186,6 +188,8 @@ app.post('/signup', async (req: Request, res: Response) => {
 
 
 app.post('/signin', async (req: Request, res: Response) => {
+
+  res.send('Signup endpoint accessed!');
   const { username, password } = req.body;
 
   const signInSqlQuery = 'SELECT * FROM users WHERE username = ?';
