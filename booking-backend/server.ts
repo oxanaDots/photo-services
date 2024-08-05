@@ -91,7 +91,7 @@ async function connectToDatabase(){
 
 connectToDatabase()
 
-app.post('/submit', async (req: Request, res: Response) => {
+app.post('/api/submit', async (req: Request, res: Response) => {
   const {
     nameInput, 
      emailInput,
@@ -132,7 +132,7 @@ app.post('/submit', async (req: Request, res: Response) => {
 })
 
 
-app.post('/signup', async (req: Request, res: Response) => {
+app.post('/api/signup', async (req: Request, res: Response) => {
   res.send('Signup endpoint accessed!');
   const { username, email, password } = req.body;
   const signUpSqlQuery = 'INSERT INTO users (username, email, password, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
@@ -189,7 +189,7 @@ app.post('/signup', async (req: Request, res: Response) => {
 
 
 
-app.post('/signin', async (req: Request, res: Response) => {
+app.post('/api/signin', async (req: Request, res: Response) => {
 
   res.send('Signup endpoint accessed!');
   const { username, password } = req.body;

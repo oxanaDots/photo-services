@@ -25,7 +25,7 @@ const onSubmit: SubmitHandler<FormInputs> = async (data )=> {
 try {
   
 
- const response = await axios.post(`${apiURL}/signup`, data)
+ const response = await axios.post(`${apiURL}/api/signup`, data)
  console.log('User registered', response.data)
 
 

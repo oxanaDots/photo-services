@@ -1,25 +1,41 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "booking-backend/server.ts",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "package.json",
-        "use": "@vercel/static-build"
+  "version": 2,
+  "builds": [
+    {
+      "src": "booking-backend/src/server.ts",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["booking-backend/src/**/*.ts"],
+        "buildCommand": "npm run build", 
+        "maxLambdaSize": "50mb" 
       }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "booking-backend/server.ts"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/index.html"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist" 
       }
-    ]
-  }
-  
-  
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)", 
+      "dest": "/booking-backend/dist/server.js"
+    },
+    {
+      "src": "/(.*)"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)\\.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
+    }
+  ]
+}

@@ -21,7 +21,7 @@ const SignIn = () => {
 
       try {
 
-        const response = await axios.post('https://photo-services-nine.vercel.app/signin', data)
+        const response = await axios.post('https://photo-services-nine.vercel.app/api/signin', data)
         console.log('Login successful', response.data)
         localStorage.setItem('token', response.data.token);
         navigate('/');
