@@ -16,22 +16,14 @@ app.options('*', cors()); // Preflight response for all routes
 
 dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
 
-const allowedOrigins: string[] = [
-  'https://photo-services-oxanadots-oxanas-projects-46ce71a7.vercel.app/',
-  'https://photo-services-fawn.vercel.app',
-  'https://photo-services-oxanas-projects-46ce71a7.vercel.app/',
-  
-];
+const allowedOrigin: string = 'https://photo-services-nine.vercel.app';
+
 
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin, like mobile apps or curl requests
-    if (!origin) {
-      return callback(null, true);
-    }
-
-    if (allowedOrigins.includes(origin)) {
+    // Allow requests from the specified origin or requests with no origin (e.g., mobile apps, server-side scripts)
+    if (origin === allowedOrigin || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
