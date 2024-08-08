@@ -2,29 +2,36 @@
   "version": 2,
   "builds": [
     {
-      "src": "booking-backend/src/server.ts",
+      "src": "booking-backend/server.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["booking-backend/src/**/*.ts"],
-        "buildCommand": "npm run build", 
-        "maxLambdaSize": "50mb" 
+        "includeFiles": ["booking-backend/**/*.ts"],
+        "buildCommand": "npm run build"
       }
     },
     {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist" 
+        "distDir": "dist"
       }
     }
   ],
-  "routes": [
+  "rewrites": [
+  
     {
-      "src": "/api/(.*)", 
-      "dest": "/booking-backend/dist/server.js"
+      "source": "/signup", 
+      "destination": "booking-backend/server.ts"
     },
     {
-      "src": "/(.*)"
+      "source": "/signin", 
+      "destination": "booking-backend/server.ts"    },
+    {
+      "source": "/submit", 
+      "destination": "booking-backend/server.ts"    },
+    {
+      "source": "/(.*)",
+     "destination": "/index.html"
     }
   ],
   "headers": [

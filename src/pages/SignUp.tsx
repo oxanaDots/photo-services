@@ -25,7 +25,7 @@ const onSubmit: SubmitHandler<FormInputs> = async (data )=> {
 try {
   
 
- const response = await axios.post(`${apiURL}/api/signup`, data)
+ const response = await axios.post(`${apiURL}/signup`, data)
  console.log('User registered', response.data)
 
 
@@ -123,7 +123,7 @@ const onError = ()=>{
       },
       pattern: {
         value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-        message: 'Password must contain at least one letter and one number'
+        message: 'Password must contain at least one number'
       }
     })}/>
     {errors.password && <p className='text-red-700 pl-4 text-xs pt-1'>{errors.password.message}</p>}

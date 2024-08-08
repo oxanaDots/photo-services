@@ -306,7 +306,7 @@ const Booking: React.FC = () => {
                         try {
                             dispatch({type: "SUBMIT_BOOKING"})
 
-                            const response = await axios.post('https://photo-services-nine.vercel.app/api/submit', {
+                            const response = await axios.post('https://photo-services-nine.vercel.app/submit', {
                                 nameInput: state.fieldState.nameInput,
                                 emailInput: state.fieldState.emailInput,
                                 phoneNumber: state.fieldState.phoneNumber,

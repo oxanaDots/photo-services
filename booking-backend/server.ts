@@ -8,33 +8,38 @@ import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import path from 'path'
-import { CorsOptions } from 'cors';
+
 
 
 const app: Application = express()
-app.options('*', cors()); // Preflight response for all routes
-
+app.use(express.json());
 dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
 
-const allowedOrigin: string = 'https://photo-services-nine.vercel.app';
+const allowedOrigin: string[] =[
+  'https://photo-services-nine.vercel.app',
+  'https://photo-services-ar8307jwq-oxanas-projects-46ce71a7.vercel.app',
+  'http://localhost:3003',
+  'https://localhost:5174/'
+] 
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin as string;
+
+  if (allowedOrigin.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(204);
+  } else {
+    next();
+  }
+});
 
 
-
-const corsOptions: CorsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests from the specified origin or requests with no origin (e.g., mobile apps, server-side scripts)
-    if (origin === allowedOrigin || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
-app.use(express.json());
-app.use(cors(corsOptions))
 
 
 
@@ -47,23 +52,23 @@ const port = 3003;
 
 // Middleware
 
-  app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, '../dist')));
+// app.use(express.static(path.join(__dirname, '../dist')));
 
-// Catch-all route to serve index.html for SPA
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
-});
+// // Catch-all route to serve index.html for SPA
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
+// });
 
 
 const db = mysql.createPool({
 
-    host: 'localhost',
-    user: 'oxanadots',
-    password: dbPassword,
-    database: 'booking_system',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,  
+    password: process.env.DB_PASSWORD,
+    database: 'photo_services',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -71,12 +76,12 @@ const db = mysql.createPool({
 })
 
 
-// db.getConnection().then(conn => {
-//    console.log('Connected to the database')
-//    conn.release()
-// }).catch (err =>{  
-//   console.error('Error connecting to the database:', err)
-// })
+db.getConnection().then(conn => {
+   console.log('Connected to the database')
+   conn.release()
+}).catch (err =>{  
+  console.error('Error connecting to the database:', err)
+})
 
 async function connectToDatabase(){
   try{
@@ -91,7 +96,7 @@ async function connectToDatabase(){
 
 connectToDatabase()
 
-app.post('/api/submit', async (req: Request, res: Response) => {
+app.post('/submit', async (req: Request, res: Response) => {
   const {
     nameInput, 
      emailInput,
@@ -132,9 +137,12 @@ app.post('/api/submit', async (req: Request, res: Response) => {
 })
 
 
-app.post('/api/signup', async (req: Request, res: Response) => {
-  res.send('Signup endpoint accessed!');
+app.post('/signup', async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
   const signUpSqlQuery = 'INSERT INTO users (username, email, password, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
   const checkUsernameSqlQuery = 'SELECT * FROM users WHERE username = ?';
   const checkEmailQuery = 'SELECT * FROM users WHERE email = ?'
@@ -160,10 +168,6 @@ app.post('/api/signup', async (req: Request, res: Response) => {
 
  } else {
 
-
-
-
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert the new user
@@ -189,7 +193,7 @@ app.post('/api/signup', async (req: Request, res: Response) => {
 
 
 
-app.post('/api/signin', async (req: Request, res: Response) => {
+app.post('/signin', async (req: Request, res: Response) => {
 
   res.send('Signup endpoint accessed!');
   const { username, password } = req.body;
