@@ -2,7 +2,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios'
 import Nav from '../components/Nav';
-import React from 'react'
+import React, { useEffect } from 'react'
+import {useAuth } from '../context/SignUpAuth'
 
 interface SignInFormInputs {
     username: string,
@@ -13,18 +14,28 @@ const SignIn = () => {
     const navigate = useNavigate();
 
 
-    const {handleSubmit, register, formState: {errors, isSubmitting}, setError} = useForm<SignInFormInputs>({shouldUseNativeValidation: false})
+    const {handleSubmit, register, formState: {errors, isSubmitting}, setError, setValue, getValues} = useForm<SignInFormInputs>({shouldUseNativeValidation: false})
+   const {username, password, setAuthData} = useAuth()
 
+   useEffect(()=> {
+
+    setValue('username', username);
+    setValue('password', password)
+
+   }, [username, password, setValue])
 
     const onSubmit: SubmitHandler<SignInFormInputs> = async (data)=> {
       console.log("form data:", data)
 
-      try {
+      setAuthData(getValues())
+   const apiURL = 'https://photo-services-nine.vercel.app';
+      //  const apiURL = 'http://localhost:3003';
 
-        const response = await axios.post('https://photo-services-nine.vercel.app/signin', data)
+      try {
+        const response = await axios.post(`${apiURL}/signin`, data)
         console.log('Login successful', response.data)
         localStorage.setItem('token', response.data.token);
-        navigate('/');
+        navigate('/dashboard');
 
 
       }catch (error) {
@@ -76,7 +87,7 @@ const SignIn = () => {
 </div>
 
 {errors.root && <p className='text-red-700 pl-4 text-xs pt-1'>{errors.root.message}</p>}
-<button disabled={isSubmitting} className={` ${isSubmitting? 'bg-blue-700': 'bg-blue-200'}  w-full mt-6 border-blue-700 border-2  text-blue-900 font-semibold rounded-3xl py-2 px-5`}>{isSubmitting? 'Signing you in...': 'Sign in'}</button>
+<button disabled={isSubmitting} className={` ${isSubmitting? 'bg-blue-300': 'bg-blue-200'}  w-full mt-6 border-blue-700 border-2  text-blue-900 font-semibold rounded-3xl py-2 px-5`}>{isSubmitting? 'Signing you in...': 'Sign in'}</button>
 </form>
     </div>
     </>

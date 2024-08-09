@@ -8,36 +8,24 @@ import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import path from 'path'
-
+import fs from 'fs'
 
 
 const app: Application = express()
-app.use(express.json());
 dotenv.config({ path: '/Users/oksanadotsenko/Desktop/photo-services/.env' });
-
-const allowedOrigin: string[] =[
-  'https://photo-services-nine.vercel.app',
-  'https://photo-services-ar8307jwq-oxanas-projects-46ce71a7.vercel.app',
-  'http://localhost:3003',
-  'https://localhost:5174/'
-] 
-
+app.use(express.json());
 app.use((req, res, next) => {
-  const origin = req.headers.origin as string;
-
-  if (allowedOrigin.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
-  // Handle preflight requests
+  res.header('Access-Control-Allow-Origin', 'https://photo-services-nine.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') {
-    res.sendStatus(204);
-  } else {
-    next();
-  }
+    return res.sendStatus(204);
+}
+
+  next();
 });
+
+
 
 
 
@@ -64,6 +52,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const db = mysql.createPool({
+  //  host: 'localhost',
+  //   user: 'root',  
+  //   password: 'Borshchiv1996',
+  //   database: 'photo_services',
+  //   waitForConnections: true,
+  //   connectionLimit: 10,
+  //   connectTimeout: 30000,
+  //   queueLimit: 0
 
     host: process.env.DB_HOST,
     user: process.env.DB_USER,  
@@ -71,7 +67,13 @@ const db = mysql.createPool({
     database: 'photo_services',
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    connectTimeout: 30000,
+    queueLimit: 0,
+    ssl: {
+      ca: process.env.MYSQL_SSL_CA,
+      cert: process.env.MYSQL_SSL_CERT,
+      key: process.env.MYSQL_SSL_KEY
+    }
 
 })
 
@@ -83,18 +85,18 @@ db.getConnection().then(conn => {
   console.error('Error connecting to the database:', err)
 })
 
-async function connectToDatabase(){
-  try{
-    const conn = await db.getConnection()
-    console.log('Connected to the database')
-    conn.release()
-  } catch(error){
-    console.error('Error connecting to the database:', error)
+// async function connectToDatabase(){
+//   try{
+//     const conn = await db.getConnection()
+//     console.log('Connected to the database')
+//     conn.release()
+//   } catch(error){
+//     console.error('Error connecting to the database:', error)
 
-  }
-}
+//   }
+// }
 
-connectToDatabase()
+// connectToDatabase()
 
 app.post('/submit', async (req: Request, res: Response) => {
   const {
@@ -179,9 +181,7 @@ app.post('/signup', async (req: Request, res: Response) => {
     console.error('Error during signup:', err);
     if (err instanceof Error) {
       return res.status(500).json({ error: err.message });
-    } else {
-      return res.status(500).json({ error: 'Unknown error' });
-    }
+    } 
   } finally {
     if (connection) {
       await connection.release();
@@ -195,7 +195,6 @@ app.post('/signup', async (req: Request, res: Response) => {
 
 app.post('/signin', async (req: Request, res: Response) => {
 
-  res.send('Signup endpoint accessed!');
   const { username, password } = req.body;
 
   const signInSqlQuery = 'SELECT * FROM users WHERE username = ?';
