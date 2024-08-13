@@ -8,7 +8,9 @@
     "jsx": "react-jsx",               // Use the new JSX runtime (React 17+)
     "forceConsistentCasingInFileNames": true,
     "outDir": "./build",              // Output directory for compiled files
-    "rootDir": "./src"                // Source directory for TypeScript files
+    "rootDir": "./src",
+    "types": ["jest"], // Include Jest types
+    // Source directory for TypeScript files
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"], // Include TypeScript files in src
   "exclude": ["node_modules", "build"]       // Exclude node_modules and build directories

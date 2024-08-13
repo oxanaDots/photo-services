@@ -85,18 +85,10 @@ db.getConnection().then(conn => {
   console.error('Error connecting to the database:', err)
 })
 
-// async function connectToDatabase(){
-//   try{
-//     const conn = await db.getConnection()
-//     console.log('Connected to the database')
-//     conn.release()
-//   } catch(error){
-//     console.error('Error connecting to the database:', error)
 
-//   }
-// }
 
-// connectToDatabase()
+
+
 
 app.post('/submit', async (req: Request, res: Response) => {
   const {
@@ -248,10 +240,19 @@ app.use((req, res, next) => {
 });
 
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
 
+export { db };
+
+// In your tests
+afterAll(async () => {
+  await db.end(); // Ensure all connections are closed
+});
+
+
+export  {app, server}
 
 
