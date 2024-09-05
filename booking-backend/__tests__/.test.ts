@@ -1,27 +1,24 @@
-import request from 'supertest'
-import {app, server} from '../server'
-import type { Config } from 'jest';
+import request from 'supertest';
+import { app, server } from '../server'; // Adjust the import paths as necessary
 
+describe('Auth Endpoints', () => {
 
-// describe('Auth Endpoints', () => {
-//     afterAll((done) => {
-//       server.close(done); // Properly close the server after tests
-//     });
-// })
+  // Test case to sign up a new user
+  it('should sign up a new user and return a success message', async () => {
+    const response = await request(app)
+      .post('/signup')
+      .send({
+        username: 'testuser19',
+        email: 'testuser19@gmail.com',
+        password: 'password12345678',
+      });
 
-describe ('Auth Endpoints', ()=>{
-    it('should sing up a new user', async ()=>{
-        const response = await request(app)
-        .post('/signup')
-        .send({
-            username: 'testuser6',
-            email: 'testuser6@gmail.com',
-            password: 'password123'
-        })
+    expect(response.status).toBe(201); // Expect the status code to be 201 (Created)
+    expect(response.body.message).toBe('User created successfully'); // Check that the success message is returned
+  });
 
-        expect(response.status).toBe(201);
-
-    })
-})
-
-
+  // Clean up after all tests in this describe block
+  afterAll((done) => {
+    server.close(done); // Properly close the server after tests
+  });
+});

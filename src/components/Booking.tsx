@@ -365,7 +365,7 @@ const Booking: React.FC = () => {
   <div className='flex justify-center'> 
  <form onSubmit={handleSubmit} className='w-[40rem] xss:w-11/12 grid 
  grid-cols-1 gap-2 bg-opacity-35 justify-center items-center  my-8
-  shadow-md   bg-indigo-100 rounded-lg backdrop-blur-md z-80 p-8 shadow-mg '>
+  shadow-md   bg-white rounded-lg backdrop-blur-md z-80 p-8 shadow-mg '>
   
  
 {!state.isSubmitted? 
@@ -428,15 +428,15 @@ const Booking: React.FC = () => {
 
  <div className='grid gap-4 my-6'>
     <h3 className=' font-semibold text-gray-900' >What's the ocassion?</h3>
-    <div className='grid gap-4 grid-cols-3 xs:grid-cols-2 xss:grid-cols-1'>
+    <div className='grid gap-4 grid-cols-3 xs:grid-cols-2 xss:grid-cols-1 '>
   {ocassions.map(ocassion=>
     <p onClick={()=> handleChoiceOfEvent(ocassion.id)} 
     key={ocassion.id}
-    className= {`text-center w-full h-24 font-semibold flex items-center justify-center
-        border rounded-md  p-10 cursor-pointer shadow-lg 
-        ${ocassion.isSelected ? ' bg-gray-100 bg-opacity-60 border-blue-800 border-2  text-blue-800' : 
+    className= {`text-center w-full h-24 font-semibold flex items-center justify-center 
+        border rounded-md  p-10 cursor-pointer shadow-lg bg-slate-100 border-stone-500
+        ${ocassion.isSelected ? '  bg-opacity-60 border-blue-800 border-2  text-blue-800' : 
       
-        state.generalError && !hasSelectedOccasion? 'border-red-600'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
+        state.generalError && !hasSelectedOccasion? 'border-red-600'  : ' bg-slate-200  bg-opacity-20 text-gray-800 '
      }
       `}
     > {ocassion.eventName}</p>
@@ -454,10 +454,10 @@ const Booking: React.FC = () => {
         key={item.id}
         onClick={()=> handleChoiceOfService(item.id)} 
         className= {`text-center w-full h-24 font-semibold flex items-center justify-center
-            border rounded-md  p-10 cursor-pointer shadow-lg 
+            border rounded-md  p-10 cursor-pointer shadow-lg border-stone-500
             ${item.isSelected ? ' bg-gray-100 bg-opacity-60 border-emerald-600 border-2  text-emerald-600' : 
           
-            state.generalError && !hasSelectedService? 'border-red-600'  : ' bg-slate-200 bg-opacity-20 text-gray-800 border-none'
+            state.generalError && !hasSelectedService? 'border-red-600'  : ' bg-slate-200 bg-opacity-20 text-gray-800 '
          }
           `}>{item.serviceName}</p>
  )}
@@ -465,7 +465,7 @@ const Booking: React.FC = () => {
  </div>
 
 
-<button className=' bg-neutral-100 bg-opacity-65 py-2 text-gray-700 text-lg font-semibold rounded-md mt-6 '>Submit</button>
+<button className=' bg-neutral-100 bg-opacity-65 py-2 text-gray-700 text-lg font-semibold rounded-md mt-6 border-stone-500 border '>Submit</button>
 </>
  :
  <>

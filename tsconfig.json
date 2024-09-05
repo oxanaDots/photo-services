@@ -13,5 +13,5 @@
     // Source directory for TypeScript files
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"], // Include TypeScript files in src
-  "exclude": ["node_modules", "build"]       // Exclude node_modules and build directories
+  "exclude": ["node_modules", "**/__tests__/**", "**/*.test.ts", "**/*.spec.ts"]
 }

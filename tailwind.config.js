@@ -10,6 +10,9 @@ export default {
         'mountains':" url('/images/mountain.jpg')",
         
       },
+      fontFamily:{
+        BGsans: [ "Bricolage Grotesque", "sans-serif"]
+      },
      screens: {
 'xs': {'max': '500px'},
 'xss': {'max': '400px'},

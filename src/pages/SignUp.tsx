@@ -13,7 +13,7 @@ interface FormInputs {
   confirmPassword: string
 }
 
-const SignUp = () => {
+const SignUp:React.FC = () => {
 
 
 const {register, handleSubmit, setError, formState: {errors, isSubmitting, isSubmitSuccessful}} = useForm<FormInputs>({shouldUseNativeValidation: false,

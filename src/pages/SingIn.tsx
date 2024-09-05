@@ -10,7 +10,7 @@ interface SignInFormInputs {
     password: string
 }
 
-const SignIn = () => {
+const SignIn: React.FC = () => {
     const navigate = useNavigate();
 
 

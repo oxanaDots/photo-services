@@ -9,7 +9,9 @@ const config: Config = {
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
   testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'], // Match test files
   // Uncomment the following line if you're using ES Modules and have "type": "module" in package.json
-  // extensionsToTreatAsEsm: ['.ts'],
+  extensionsToTreatAsEsm: ['.ts'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'], // Ignore dist directory
+
 };
 
 export default config;
