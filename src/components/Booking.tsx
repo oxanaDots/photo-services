@@ -432,12 +432,11 @@ const Booking: React.FC = () => {
   {ocassions.map(ocassion=>
     <p onClick={()=> handleChoiceOfEvent(ocassion.id)} 
     key={ocassion.id}
-    className= {`text-center w-full h-24 font-semibold flex items-center justify-center 
-        border rounded-md  p-10 cursor-pointer shadow-lg  border-stone-500
-        ${ocassion.isSelected ? 'bg-gray-100  bg-opacity-60 border-blue-600 border-2  text-blue-600' : 
-      
-        state.generalError && !hasSelectedOccasion? 'border-red-500'  : ' bg-opacity-20 text-gray-800 '
-     }
+    className= {`  text-center w-full h-24 font-semibold flex items-center justify-center 
+        border rounded-md  p-10 cursor-pointer shadow-lg  bg-gray-100
+    ${ocassion.isSelected ? 'border-blue-600 bg-gray-100 bg-opacity-60 border-2 text-blue-800' : ''}
+    ${state.generalError && !hasSelectedOccasion ? 'border-red-600' : ''}
+    ${!ocassion.isSelected && !(state.generalError || !hasSelectedOccasion) ? 'bg-opacity-20 text-gray-800' : ''}
       `}
     > {ocassion.eventName}</p>
    )}
@@ -453,12 +452,11 @@ const Booking: React.FC = () => {
         <p
         key={item.id}
         onClick={()=> handleChoiceOfService(item.id)} 
-        className= {`text-center w-full h-24 font-semibold flex items-center justify-center
-            border rounded-md  p-10 cursor-pointer shadow-lg border-stone-500
-            ${item.isSelected ? ' bg-gray-100 bg-opacity-60 border-green-600 border-2  text-green-600' : 
-          
-            state.generalError && !hasSelectedService? 'border-red-500'  : '  bg-slate-200 bg-opacity-20 text-gray-800 '
-         }
+        className= {`  text-center w-full h-24 font-semibold flex items-center justify-center 
+            border rounded-md  p-10 cursor-pointer shadow-lg  bg-gray-100
+        ${item.isSelected ? 'border-blue-600 bg-gray-100 bg-opacity-60 border-2 text-blue-800' : ''}
+        ${state.generalError && !hasSelectedService ? 'border-red-600' : ''}
+        ${!item.isSelected && !(state.generalError || !hasSelectedService) ? 'bg-opacity-20 text-gray-800' : ''}
           `}>{item.serviceName}</p>
  )}
    </div>
