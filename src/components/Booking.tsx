@@ -428,15 +428,15 @@ const Booking: React.FC = () => {
 
  <div className='grid gap-4 my-6'>
     <h3 className=' font-semibold text-gray-900' >What's the ocassion?</h3>
-    <div className='grid gap-4 grid-cols-3 xs:grid-cols-2 xss:grid-cols-1 '>
+    <div className='grid gap-4 grid-cols-3 xs:grid-cols-2 xss:grid-cols-1'>
   {ocassions.map(ocassion=>
     <p onClick={()=> handleChoiceOfEvent(ocassion.id)} 
     key={ocassion.id}
     className= {`text-center w-full h-24 font-semibold flex items-center justify-center 
-        border rounded-md  p-10 cursor-pointer shadow-lg bg-slate-100 border-stone-500
-        ${ocassion.isSelected ? '  bg-opacity-60 border-blue-800 border-2  text-blue-800' : 
+        border rounded-md  p-10 cursor-pointer shadow-lg  border-stone-500
+        ${ocassion.isSelected ? 'bg-gray-100  bg-opacity-60 border-blue-600 border-2  text-blue-600' : 
       
-        state.generalError && !hasSelectedOccasion? 'border-red-600'  : ' bg-slate-200  bg-opacity-20 text-gray-800 '
+        state.generalError && !hasSelectedOccasion? 'border-red-500'  : ' bg-opacity-20 text-gray-800 '
      }
       `}
     > {ocassion.eventName}</p>
@@ -455,9 +455,9 @@ const Booking: React.FC = () => {
         onClick={()=> handleChoiceOfService(item.id)} 
         className= {`text-center w-full h-24 font-semibold flex items-center justify-center
             border rounded-md  p-10 cursor-pointer shadow-lg border-stone-500
-            ${item.isSelected ? ' bg-gray-100 bg-opacity-60 border-emerald-600 border-2  text-emerald-600' : 
+            ${item.isSelected ? ' bg-gray-100 bg-opacity-60 border-green-600 border-2  text-green-600' : 
           
-            state.generalError && !hasSelectedService? 'border-red-600'  : ' bg-slate-200 bg-opacity-20 text-gray-800 '
+            state.generalError && !hasSelectedService? 'border-red-500'  : '  bg-slate-200 bg-opacity-20 text-gray-800 '
          }
           `}>{item.serviceName}</p>
  )}
